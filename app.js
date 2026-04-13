@@ -18,9 +18,9 @@ app.get('/v1/senai/lista/tudo', function(request, response){
     response.json(dados)
     response.status(200)
 })
-app.get('/v1/senai/dados/:perfil', function(request, response){
-    let nome = request.params.perfil
-    let user = zapFake.getdadosdeperfil(nome)
+app.get('/v1/senai/dados/perfil', function(request, response){
+    let name = request.query.nome
+    let user = zapFake.getdadosdeperfil(name)
     if(!user){
         response.json(user)
         response.status(200)
@@ -48,6 +48,36 @@ app.get('/v1/senai/mensagem', function(request, response){
     response.json(gart)
     response.status(200)
 
+})
+app.get('/v1/senai/mensagem', function(request, response){
+    let docAPI ={
+        "api-description": "API para manipular dados de usuarios e contatos",
+        "date": "2026-04-13",
+        "development": "Gabriel Renato",
+        "version": 1.0,
+        "endpoints": [
+            {   "rota1": "/v1/senai/lista/tudo",
+                "description": "Retorna a lista de todos os dados de todos os usuarios e todos os contatos"
+            },
+            {   "rota2": "/v1/senai/dados/perfil?nome=",
+                "description": "Retorna dados do perfil filtrando pelo nick"
+            },
+            {   "rota3": "/v1/senai/dados/do/contato?nome=",
+                "description": "Retorna dados do contato filtrando pelo nome"
+            },
+            {   "rota4": "/v1/senai/mensagem/usuario?nome=",
+                "description": "Retorna lista de mensagens filtrando pelo nome do usuario"
+            },
+            {   "rota5": "/v1/senai/mensagem?user= &contato=",
+                "description": "Retorna as nemsagens filtrando pelo nome de usuario e pelo nome do contato"
+            },
+            {   "rota5": "",
+                "description": "Retorna as cidades filtrando pela sigla do estado"
+            },
+        ]
+    }
+    response.json(docAPI)
+    response.status(200)
 })
 
 
