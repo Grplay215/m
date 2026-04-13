@@ -49,7 +49,7 @@ app.get('/v1/senai/mensagem', function(request, response){
     response.status(200)
 
 })
-app.get('/v1/senai/mensagem', function(request, response){
+app.get('/v1/senai/help', function(request, response){
     let docAPI ={
         "api-description": "API para manipular dados de usuarios e contatos",
         "date": "2026-04-13",
