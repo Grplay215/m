@@ -8,7 +8,7 @@
 let lista = require('./contatos.js')
 let contat = lista.contatos['whats-users']
 
-var fotos
+
 
 const getListaDeContatos = function() {
     let listacontatos = {
@@ -29,6 +29,7 @@ const getdadosdeperfil = function(nome) {
         numero: false,
         imagem: false,
         cor_de_fundo: false,
+        criacao_e_encerramento: false,
     }
 
     for (let usuario of contat){
@@ -38,6 +39,7 @@ const getdadosdeperfil = function(nome) {
             listadeperfil.numero = usuario.number
             listadeperfil.cor_de_fundo = usuario.background
             listadeperfil.imagem = usuario['profile-image']
+            listadeperfil.criacao_e_encerramento = usuario['created-since']
 
             return listadeperfil
         }
@@ -68,30 +70,62 @@ const getdadosdeusuarios = function(nome) {
     return listadeperfil
 }
 
-const getmensagens = function() {
-    let mensagem = []
+const getmensagens = function(nome) {
+    let mensagem = {
+        usuario: nome,
+        conversa: []
+    }
 
-    contat.forEach(function(mensanger){
-        mensanger.contacts.forEach(function(user){
-            mensagem.push({
-            contato: user.name,
-            mensagens: user.messages
+    for (let mensanger of contat){
+        if (nome === mensanger.nickname) {
+            mensanger.contacts.forEach(dados =>{
+                mensagem.conversa.push({
+                    name: dados.name,
+                    descricao: dados.description,
+                    imagem: dados.image,
+                    conversas: dados.messages
+                })
             })
-        })
+            return mensagem
+        }
         
-    })
+    }
     return mensagem
 }
 
-const conversaporusuario = function(user, contato){
+const getconversaporusuario = function(user, contato){
     let listadeconversa = {
-        nome: false,
+        usuario: user,
+        contact_nome: false,
         numero: false,
         conversa: []
     }
 
+    for(let usermencer of contat){
+       
+            if (user === usermencer.nickname) {
+                const mensagens = usermencer.contacts.find(c=> c.name === contato)
+
+                if(mensagens){
+            listadeconversa.contact_nome = mensagens.name
+            listadeconversa.numero = usermencer.number
+            listadeconversa.conversa = mensagens.messages
+                }
+        }
+        
+    }
+    return listadeconversa
     
 }
 
 //console.log(getListaDeContatos())
-console.log(getmensagens())
+//console.log(getconversaporusuario("Ricky", "Ana Maria"))
+//console.log(getdadosdeusuarios('Mark Johnson'))
+
+module.exports={
+    getListaDeContatos,
+    getdadosdeperfil,
+    getdadosdeusuarios,
+    getmensagens,
+    getconversaporusuario
+}
